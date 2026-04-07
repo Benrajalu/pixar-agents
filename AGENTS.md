@@ -32,10 +32,16 @@ Both actions require the **Figma MCP**. The key tools used are:
 
 | File | Purpose |
 |------|---------|
-| `ComponentDoc/ComponentDoc-instructions.md` | Agent behavior for completing component documentation |
-| `ComponentDoc/Accessibility-instructions.md` | Accessibility section spec (VoiceOver, TalkBack, ARIA) |
-| `ItemReplace/ItemReplace-instructions.md` | Agent behavior for deprecated item migration, including component keys and property mappings |
-| `implementation.md` | Architecture reference for agents |
+| `component-doc/SKILL.md` | Agent behavior for completing component documentation |
+| `component-doc/references/accessibility.md` | Accessibility section spec — template insertion, VoiceOver, TalkBack, ARIA |
+| `component-doc/references/screenreader.md` | Screen reader analysis guide |
+| `component-doc/references/aria.md` | ARIA roles, states, keyboard patterns |
+| `component-doc/references/talkback.md` | TalkBack (Android / Jetpack Compose) reference |
+| `component-doc/references/voiceover.md` | VoiceOver (iOS / SwiftUI) reference |
+| `item-replace/SKILL.md` | Agent behavior for deprecated item migration |
+| `item-replace/references/component-mappings.md` | Component keys, property mappings, migration examples |
+| `component-doc/references/implementation.md` | Architecture reference (ComponentDoc) |
+| `item-replace/references/implementation.md` | Architecture reference (ItemReplace) |
 
 ## Running an action
 

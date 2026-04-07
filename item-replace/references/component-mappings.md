@@ -1,32 +1,4 @@
-# Item Replacement Agent for Figma
-
-## Role
-
-You are a component migration specialist. Given a Figma URL, you identify deprecated Item component instances and replace them with their modern equivalents from the Pixar UI library.
-
-## Workflow
-
-Every change you perform on Figma should be cancelable: make sure they impact Figma's history.
-
-1. **Checkpoint** — Before starting, ask the user to create a named version in Figma (Ctrl/Cmd+Alt+S) as a restore point
-2. **Scan & Identify** — Use a single `use_figma` call to list frame children, find all deprecated instances (names starting with `DEPRECATED Item...`), and collect their actual instance IDs
-3. **Import** — In a single `use_figma` call, pre-import all distinct replacement component types needed (using `figma.importComponentByKeyAsync()` or `figma.importComponentSetByKeyAsync()`)
-4. **Replace** — In a single `use_figma` call, process all deprecated instances:
-   - Create new instance and position it
-   - Enable required properties (e.g., `show_data` for ItemData migrations)
-   - Transfer icon from old component using INSTANCE_SWAP
-   - Extract and transfer text content (load fonts first)
-   - Remove the deprecated instance
-5. **Verify** — Use `get_screenshot` to confirm the migration looks correct
-
-## Detecting Deprecated Components
-
-When analyzing a frame, look for instances with names matching these patterns:
-- `DEPRECATED ItemInfo/*`
-- `DEPRECATED ItemData/*`
-- `DEPRECATED ItemNavigate/*`
-- `DEPRECATED ItemCheckbox/*`
-- `DEPRECATED ItemRadio/*`
+# Component Mappings — ItemReplace Reference
 
 ## Library Reference
 
@@ -226,7 +198,7 @@ if (hasPriceLayout) {
 | `state` | variant | `default`, `hover`, etc. |
 | `viewport` | variant | `mobile`, `desktop` |
 
-### Transferring Text Content
+## Transferring Text Content
 
 Text must be set by finding child TEXT nodes and overriding their `characters` property:
 
@@ -248,7 +220,7 @@ await setText(newInstance, 'content-title', 'My Title');
 await setText(newInstance, '↳ Meta', 'My Description');
 ```
 
-### Icon Transfer
+## Icon Transfer
 
 Icons use `INSTANCE_SWAP` properties with **node ID references**, not component keys. The glyph property expects a node ID like `"18:441"` that points to a glyph component in the library.
 
@@ -257,7 +229,6 @@ Icons use `INSTANCE_SWAP` properties with **node ID references**, not component 
 const oldIcon = deprecated.findOne(n => n.name === '◇ Glyph' && n.type === 'INSTANCE');
 
 // 2. Get the node ID that the old icon's glyph property references
-// This can be found in the parent Icon container's componentProperties
 const oldIconContainer = oldIcon?.parent?.parent;  // Navigate to Icon instance
 let glyphNodeId = null;
 if (oldIconContainer?.type === 'INSTANCE') {
@@ -268,7 +239,6 @@ if (oldIconContainer?.type === 'INSTANCE') {
 }
 
 // 3. Find the Icon container in the new component  
-// For nested icons (like in Data sections), navigate the tree carefully
 const newIconContainer = newInstance.findOne(n => 
   n.name.includes('Icon') && 
   n.type === 'INSTANCE' && 
@@ -287,7 +257,6 @@ if (newIconContainer && glyphNodeId) {
 
 **For deeply nested icons (e.g., Data section icons in Item/Input):**
 ```javascript
-// Navigate down to the Icon instance within the Data section
 const dataSection = newInstance.findOne(n => n.name === '↳ Data' && n.type === 'INSTANCE');
 const iconInData = dataSection?.findOne(n => n.name.includes('Icon') && n.type === 'INSTANCE');
 const innerIcon = iconInData?.findOne(n => 
@@ -301,7 +270,7 @@ if (innerIcon && glyphNodeId) {
 }
 ```
 
-### Variant-Specific Notes
+## Variant-Specific Notes
 
 For **Item/Input** (replacing ItemCheckbox/ItemRadio):
 - The input type (checkbox vs radio) is determined by the variant you select from the component set
@@ -311,7 +280,7 @@ For **Item/Navigation** (replacing ItemNavigate):
 - Addon data (prices, badges) must be configured by finding nested nodes
 - The chevron icon is built-in and shows automatically
 
-### Positioning
+## Positioning
 
 ```javascript
 // Copy position from deprecated instance
@@ -331,7 +300,7 @@ if (parent) {
 newInstance.resize(deprecatedInstance.width, newInstance.height);
 ```
 
-### Complete Migration Example
+## Complete Migration Example
 
 ```javascript
 // Full migration of a DEPRECATED ItemInfo/Default
@@ -373,7 +342,7 @@ deprecated.remove();
 ## Error Handling
 
 - **Font loading**: Always call `figma.loadFontAsync(textNode.fontName)` before setting `characters`
-- **Missing text nodes**: Text node names may vary — use `findOne` with flexible matching (`includes`)  
+- **Missing text nodes**: Text node names may vary — use `findOne` with flexible matching (`includes`)
 - **Unmatched semantics**: Some deprecated variants (Tag, IconLarge) don't have direct equivalents — configure the closest match
 - **Complex layouts**: If the deprecated component has nested overrides, extract and reapply them manually
 
@@ -392,44 +361,3 @@ return structure;
 ```
 
 This helps identify the actual instance IDs (which may differ from component definition IDs).
-
-## Output
-
-Edit the Figma file directly using `use_figma`. After completing replacements, provide a summary:
-
-```
-## Migration Summary
-
-**Replaced:** X components
-- ✅ DEPRECATED ItemInfo/Default → Item/Default (node 123:456)
-- ✅ DEPRECATED ItemNavigate/Accent → Item/Navigation (node 123:789)
-
-**Skipped:** Y components  
-- ⚠️ DEPRECATED ItemInfo/Tag (node 123:012) — could not match Tag variant
-
-**Errors:** Z components
-- ❌ DEPRECATED ItemData/Primary/Default (node 123:345) — import failed
-```
-
-### Constraints
-
-- Do **not** rename any components
-- Do **not** modify components that are not in the deprecated list
-- **Preserve** the original when a replacement cannot be properly configured
-- Work on **one component at a time** to avoid partial failures
-
-## Undo & History
-
-**Critical Limitation:** Changes made via MCP (`use_figma`) do **not** appear in Figma's local undo stack (Cmd+Z / Ctrl+Z). This is a known limitation of the MCP server — `figma.commitUndo()` is not supported.
-
-### What users see
-- ❌ Cmd+Z will NOT undo MCP changes
-- ✅ Named versions can be restored at any time
-
-### Code template
-At the start of every migration session, include this reminder:
-```
-⚠️ MCP changes cannot be undone with Cmd+Z.
-Please create a named version now (Cmd/Option+S) before we proceed.
-This will be your restore point if anything goes wrong.
-```

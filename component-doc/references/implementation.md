@@ -8,10 +8,10 @@
 > - Per-action workflow summary and reference file pointers
 >
 > **What does NOT belong here:**
-> - Per-action schemas, property mappings, and examples — those live in each action's instruction file
-> - Component keys for the Pixar UI library — those live in `ItemReplace/ItemReplace-instructions.md`
+> - Per-action schemas, property mappings, and examples — those live in each action's SKILL.md or references/
+> - Component keys for the Pixar UI library — those live in `item-replace/references/component-mappings.md`
 >
-> **Adding a new action:** Add an instruction file in a new folder, update the actions table and reference files table below, and update `AGENTS.md`.
+> **Adding a new action:** Add a new skill folder with a SKILL.md, update the actions table and reference files table below, and update `AGENTS.md`.
 
 ## Overview
 
@@ -31,7 +31,7 @@ The agent is given a Figma frame URL containing an in-progress component documen
 3. Completes each relevant section: fills text content, inserts component instances for interactive demos, and writes the accessibility section using the spec defined in `Accessibility-instructions.md`
 4. Writes all changes back to Figma via `mcp_figma_use_figma`
 
-The accessibility section follows a structured screen reader spec (VoiceOver, TalkBack, ARIA) — see `ComponentDoc/Accessibility-instructions.md` for the full schema and agent behavior.
+The accessibility section follows a structured screen reader spec (VoiceOver, TalkBack, ARIA) — see `component-doc/references/accessibility.md` for the full schema and agent behavior.
 
 ### ItemReplace
 
@@ -43,7 +43,7 @@ The agent is given a Figma frame URL containing deprecated Item component instan
 4. For each deprecated instance: creates the replacement, transfers icon and text content, positions it, and removes the deprecated original
 5. Validates the result with `mcp_figma_get_screenshot`
 
-See `ItemReplace/ItemReplace-instructions.md` for component keys, property mappings, and migration rules.
+See `item-replace/references/component-mappings.md` for component keys, property mappings, and migration rules.
 
 ## MCP Tools
 
@@ -77,8 +77,9 @@ AI Agent ──> Figma MCP ──> Figma
 
 | File | Content |
 |------|---------|
-| `ComponentDoc/ComponentDoc-instructions.md` | Agent behavior: section identification, content rules, demo instance creation |
-| `ComponentDoc/Accessibility-instructions.md` | Accessibility spec: merge analysis, focus order, VoiceOver / TalkBack / ARIA property tables |
-| `ItemReplace/ItemReplace-instructions.md` | Migration rules: deprecated component patterns, replacement component keys, property mappings |
+| `component-doc/SKILL.md` | Agent behavior: section identification, content rules, demo instance creation |
+| `component-doc/references/accessibility.md` | Accessibility spec: merge analysis, focus order, VoiceOver / TalkBack / ARIA property tables |
+| `item-replace/SKILL.md` | Migration workflow: checkpoint, scan, import, replace, verify |
+| `item-replace/references/component-mappings.md` | Migration rules: deprecated component patterns, replacement component keys, property mappings |
 
 

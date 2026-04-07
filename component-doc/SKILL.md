@@ -1,3 +1,9 @@
+---
+name: component-doc
+description: Complete component documentation in a Figma frame. Identifies and fills required sections — Component breakdown (wireframes, interactive behaviour, accessibility), Component behaviour (text handling, screen sizes, partial content) — and inserts interactive Demo frames with good/bad examples. Use when given a Figma URL pointing to a component documentation frame that needs completing, when documenting a Figma component, or when writing or updating the accessibility spec for a UI component.
+compatibility: Requires Figma MCP (mcp_figma_* tools)
+---
+
 # Documentation completion Agent for Figma
 
 ## Role
@@ -32,7 +38,7 @@ This section contains several subsections — apply these rules before filling t
 
 - **Wireframes**: Remove this subsection entirely when there is only one primitive. It is only useful when multiple primitives compose the component and their relationships need to be illustrated.
 - **Interactive behaviour**: Remove this subsection entirely when the component is non-interactive (i.e. it has no hover, press, focus, tap, or state-change behaviour). Do not document states that don't exist.
-- **Accessibility**: Fill this in using `Accessibility-instruction.md`. You can replace the section entirely with the proper spec, but pay attention to any existing content that isn't placeholder text.
+- **Accessibility**: Fill this in using [references/accessibility.md](references/accessibility.md). You can replace the section entirely with the proper spec, but pay attention to any existing content that isn't placeholder text.
 
 Use the "Interactive demo for this component" sections to insert instances of the component(s) set-up to illustrate your suggestions.
 
@@ -103,3 +109,12 @@ When writing text to nodes in Figma, the text node locks its wrap-width at the m
 **Do not set `counterAxisSizingMode = "FIXED"` on row frames.**
 
 Table rows use HORIZONTAL layout — their counter axis is **vertical** (height). Setting `counterAxisSizingMode = "FIXED"` on a row locks its height, preventing text in cells from reflowing. Always set rows to `counterAxisSizingMode = "AUTO"` so they grow to hug their tallest cell.
+
+## References
+
+- [Accessibility spec](references/accessibility.md) — Screen reader accessibility template insertion, merge analysis, focus order, VoiceOver / TalkBack / ARIA properties
+- [Screen reader analysis guide](references/screenreader.md) — Detailed instructions for analysing components and producing platform-specific accessibility data
+- [ARIA reference](references/aria.md) — Roles, states, properties, keyboard patterns for Web
+- [TalkBack reference](references/talkback.md) — Jetpack Compose semantics modifiers for Android
+- [VoiceOver reference](references/voiceover.md) — SwiftUI accessibility modifiers for iOS
+- [Architecture reference](references/implementation.md) — System overview, MCP tools, data flow
