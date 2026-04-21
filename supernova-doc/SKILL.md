@@ -74,6 +74,16 @@ Produce markdown documentation for all four pages in a single response, using th
 [content]
 ```
 
+### Phase 4: Save Option
+
+After presenting the documentation, ask the user if they want to save it to a local markdown file.
+
+- **Location**: `supernova-doc/generated/{component-name}-docs.md`
+- **Format**: Single file with all four pages, using the same separator format as Phase 3 output
+- **Naming**: Use kebab-case for component name (e.g., `drawer-docs.md`, `bottom-sheet-docs.md`)
+
+This folder is git-ignored, so generated files won't clutter the repository.
+
 ## Transformation Rules
 
 ### Implementation → Usage

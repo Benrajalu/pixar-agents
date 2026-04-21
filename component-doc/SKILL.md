@@ -44,6 +44,46 @@ Use the "Interactive demo for this component" sections to insert instances of th
 
 Be exhaustive.
 
+**CRITICAL: Never create components — always create instances from mainComponent**
+
+When you need to show a component in a Demo frame or any preview area:
+
+1. **Find the component or variant** in the Main component showcase (shown as `<symbol>` in metadata, type `COMPONENT` in API)
+2. **Call `.createInstance()`** on it — this creates a proper linked instance
+3. **Load fonts first** if the component contains text
+
+**NEVER use `.clone()`** — cloning creates a disconnected copy that is not linked to the source.
+
+**NEVER create frame structures** that look like the component — these are orphan elements.
+
+```javascript
+// ✅ CORRECT: Create instance from a component variant
+await figma.loadFontAsync({ family: "GT Eesti Pro Display", style: "Medium" });
+
+const componentVariant = figma.getNodeById('component-variant-id');
+if (componentVariant.type === 'COMPONENT') {
+  const instance = componentVariant.createInstance(); // Linked to source!
+  demoFrame.appendChild(instance);
+  instance.x = (demoFrame.width - instance.width) / 2;
+  instance.y = (demoFrame.height - instance.height) / 2;
+}
+
+// ✅ ALSO CORRECT: Create instance via an existing instance's mainComponent
+const existingInstance = figma.getNodeById('existing-instance-id');
+if (existingInstance.type === 'INSTANCE') {
+  const mainComp = existingInstance.mainComponent;
+  const newInstance = mainComp.createInstance();
+  demoFrame.appendChild(newInstance);
+}
+
+// ❌ WRONG: clone() creates a disconnected copy
+const clone = existingInstance.clone(); // BAD
+
+// ❌ WRONG: Creating frames from scratch
+const newFrame = figma.createFrame();
+newFrame.name = 'BottomBar/Flow (SPA)'; // BAD - not linked
+```
+
 **Main component showcase** 
 
 This is where the exported components live. 
@@ -88,12 +128,40 @@ You can update text, create instances of the component(s) and set them up proper
 
 You can remove sections or instruction text when irrelevant. 
 
+### Placeholder text removal
+
+**Delete all instructional placeholder text before finishing.** Common placeholders to remove:
+
+- `"Explain in simple terms the rules and expectations of this primitive..."`
+- `"Explain the purpose of this property, whether it makes sense only on Figma..."`
+- `"Private component, used to build the main components - Short description of why it is useful"`
+- Any text starting with `"Text"` in table cells that should contain descriptions
+
+These are template instructions for human authors. They must not appear in finished documentation. Either replace them with meaningful content or delete the text node entirely.
+
 ### Content expectations
 
 **Never include specific measurements in documentation text.** This means no pixel values, no dp/pt values, no percentage dimensions, no padding or margin numbers, no corner radius values, no icon sizes — nothing that Figma Inspect or Dev Mode already exposes. Sizes change; tokens and Inspect are the source of truth. If you find yourself writing a number followed by px, dp, pt, or %, delete it. Reference token names (e.g. `--round`, `--spacing-md`) only when they clarify intent that is not obvious from the component name alone.
 
 - If you have doubts, ask the user to clarify before writing documentation
 - Make sure the final doc layout is consistent. All blocks in a section column are expected to be the same width.
+
+### Primitives section consistency
+
+When documenting primitives, ensure all primitive documentation blocks have identical widths. Before finishing:
+
+1. **Check all primitive frame widths** in the Primitives column
+2. **Identify the standard width** (typically 950px to match other columns)
+3. **Resize any outliers** to match the standard width
+
+```javascript
+// Example: Normalize primitive widths to 950px
+const targetWidth = 950;
+const primitiveFrame = figma.getNodeById('primitive-frame-id');
+if (primitiveFrame.width !== targetWidth) {
+  primitiveFrame.resize(targetWidth, primitiveFrame.height);
+}
+```
 
 ### Layout integrity — frame widths and text wrap
 
