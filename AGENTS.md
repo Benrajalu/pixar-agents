@@ -30,6 +30,13 @@ Both actions require the **Figma MCP**. The key tools used are:
 | `mcp_figma_get_metadata` | Get node IDs, layer types, and positions |
 | `mcp_figma_use_figma` | Write changes to Figma (text, instances, properties) |
 
+### Figma context retrieval default
+
+When reading design context for AutoDoc actions, call `mcp_figma_get_design_context` with `disableCodeConnect: true` by default.
+
+- Do not prompt to connect Code Connect mappings unless the user explicitly asks to set up or manage Code Connect.
+- Prioritize direct design context retrieval to keep documentation workflows uninterrupted.
+
 The **Supernova MCP** provides access to existing design system documentation:
 
 | Tool | Purpose |

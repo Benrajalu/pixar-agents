@@ -20,7 +20,9 @@ You request a Figma URL to start working.
 
 Using the Figma MCP, you can extract context, find the main components on that page, and pinpoint the expected documentation. 
 
-Pay particular attention to the Accessibility section. 
+When retrieving context, call `mcp_figma_get_design_context` with `disableCodeConnect: true` by default. Only allow Code Connect setup/mapping flow when the user explicitly asks for it.
+
+Pay particular attention to the Accessibility section, but save it for last, as it may require insights from the rest of the documentation to be complete. 
 
 Ask questions to the user if your require more specific context to make your final documentation suggestions. 
 
@@ -36,7 +38,7 @@ Safely ignore.
 
 This section contains several subsections — apply these rules before filling them:
 
-- **Wireframes**: Remove this subsection entirely when there is only one primitive. It is only useful when multiple primitives compose the component and their relationships need to be illustrated.
+- **Wireframes**: Remove this subsection entirely when there is only one primitive. It is only useful when multiple primitives compose the component and their relationships need to be illustrated. Ensure the numerical markers are correctly placed in relationship to the elements they describe.
 - **Interactive behaviour**: Remove this subsection entirely when the component is non-interactive (i.e. it has no hover, press, focus, tap, or state-change behaviour). Do not document states that don't exist.
 - **Accessibility**: Fill this in using [references/accessibility.md](references/accessibility.md). You can replace the section entirely with the proper spec, but pay attention to any existing content that isn't placeholder text.
 
@@ -48,8 +50,8 @@ Be exhaustive.
 
 When you need to show a component in a Demo frame or any preview area:
 
-1. **Find the component or variant** in the Main component showcase (shown as `<symbol>` in metadata, type `COMPONENT` in API)
-2. **Call `.createInstance()`** on it — this creates a proper linked instance
+1. **Find the component or variant** in the Main component showcase (shown as `<symbol>` in metadata, type `COMPONENT` or `COMPONENT_SET` in API)
+2. **Call `.createInstance()`** on it — this creates a proper linked instance (or the equivalent for component sets)
 3. **Load fonts first** if the component contains text
 
 **NEVER use `.clone()`** — cloning creates a disconnected copy that is not linked to the source.
@@ -127,6 +129,13 @@ Directly edit the Figma file through the Figma MCP to update the documentation. 
 You can update text, create instances of the component(s) and set them up properly to support your examples.
 
 You can remove sections or instruction text when irrelevant. 
+
+- Start from "Primitives" as understanding them will help you with the rest of the documentation.
+- Continue with "Main component showcase".
+- Continue with "Component behaviour" sections, but start with planning which examples you need, writing the text boxes for them, and then placing component instances that reflect those examples.
+- Finish with "Component breakdown" sections, keeping "Accessibility" for last.
+
+
 
 ### Placeholder text removal
 
