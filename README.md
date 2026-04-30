@@ -76,10 +76,12 @@ Start a fresh Copilot chat for each action.
 
 ### 1) Complete Component Documentation
 
+First, use AleksAI to generate the documentation template of a component. Select the frame it creates. It should contains all of our sections (Primitives, Main component etc...). Copy this frame's URL.
+
 Paste this (replace with your real Figma URL):
 
 ```text
-Complete the documentation for this component: https://www.figma.com/design/FILE_KEY/FILE_NAME?node-id=100-200
+Complete the documentation for this component: FRAME_URL_HERE
 ```
 
 Expected result:
