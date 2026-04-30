@@ -3,7 +3,7 @@
 AutoDoc helps designers do three tasks faster using GitHub Copilot:
 
 1. Fill in component documentation in Figma.
-2. Replace old deprecated components with current ones.
+2. Replace deprecated components with current ones.
 3. Generate documentation text for Supernova.
 
 You do not need to be an engineer to use this repo.
