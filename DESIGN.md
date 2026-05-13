@@ -342,7 +342,7 @@ Within a semantic group, the background intensity determines which text colors a
 
 ### Space Colors
 
-`space/*` colors are dedicated to brands or niches. They don't follow Pixar's brand rules (e.g., `space-paypal` follows PayPal's guidelines), but the same pairing rules apply: a space's `bg-strong` expects `txt-inverted` from its own space.
+`space-*` colors are dedicated to brands or niches. They don't follow Pixar's brand rules (e.g., `space-paypal` follows PayPal's guidelines), but the same pairing rules apply: a space's `bg-strong` expects `txt-inverted` from its own space.
 
 - Payment providers: Apple Pay, Google Pay, PayPal, Blik, Pix, iDEAL, Open Banking
 - Social login: Facebook, VK
