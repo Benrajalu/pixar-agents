@@ -71,7 +71,7 @@ colors:
   warning-txt-moderate: "#7A5F50"
   warning-bg-strong: "#FF993A"
   warning-bg-weak: "#FFE7D1"
-  warning-bg-weak-active: "#F6EAda"
+  warning-bg-weak-active: "#F6EADA"
 
   # Danger - Critical issue (red)
   danger-txt-default: "#BA303B"
