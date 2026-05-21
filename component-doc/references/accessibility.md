@@ -407,7 +407,7 @@ interface PropertyItem {
 | `title` | Section title. Use exact names: `"VoiceOver (iOS)"`, `"TalkBack (Android)"`, `"ARIA (Web)"` |
 | `tables` | One or more tables per section. For platforms: one table per component part. |
 | `focusOrderIndex` | Reading order position (1, 2, 3…). Every table must have this — even single-stop components get `1`. |
-| `#focus-order` cell label | The left cell of `#header-row` in each platform table. **Single-stop components:** write `"Announcement"` — there is no ordering to convey. **Compound components:** write the stop number (e.g. `"1"`, `"2"`). Never write `"Focus order"` in a single-stop platform table — it implies a sequence that doesn't exist. |
+| `#focus-order` cell label | The left cell of `#header-row` in each platform table. **Single-stop components:** write `"Summary"` — there is no ordering to convey. **Compound components:** write the stop number (e.g. `"1"`, `"2"`). Never write `"Focus order"` in a single-stop platform table — it implies a sequence that doesn't exist. |
 | `name` | Part/object name ("Button", "Input field", "Trailing icon button"). **Compound components only:** prepended to `announcement` in the `#announcement` cell (e.g. `Button   "Connect with Apple, button"`). **Single-stop components:** omit the name prefix — write only the announcement string. |
 | `announcement` | Full announcement string in quotes (e.g., `"Submit, button"`). |
 | `properties` | All relevant properties. Always include role/traits for platform sections. |
@@ -439,6 +439,36 @@ For simple components (one focusable element), each platform section has **one t
 VoiceOver (iOS)
   └── Table: "Button" — how iOS announces the button
 ```
+
+### Property Table Format
+
+Each property gets its **own row** in the `#state-table`. Do not combine multiple properties into a single row.
+
+**Structure:**
+```
+#state-table
+├── #header-row (Summary column for single-stop, Focus order for compound)
+├── #prop-row-template (Property 1)
+├── #prop-row-template (Property 2)
+└── #prop-row-template (Property 3)
+```
+
+**To add property rows:**
+1. Find the existing `#prop-row-template` in the platform's `#state-table`
+2. Clone it for each additional property
+3. Append clones to `#state-table` (they stack vertically)
+4. Update each row's Property name / Property value / Property notes cells
+
+**Announcement formatting:**
+When a component has multiple behavioral variants (e.g., toggle vs button vs link), use **line breaks** to show each pattern on its own line:
+
+```
+Toggle: "[Label], toggle button, pressed/not pressed"
+Button: "[Label], button"
+Link: "[Label], link"
+```
+
+Do NOT use bullet characters (•) or semicolons to separate patterns inline. Line breaks are clearer.
 
 ### Archetype Strategy
 
