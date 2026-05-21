@@ -152,7 +152,22 @@ These are template instructions for human authors. They must not appear in finis
 
 **Never include specific measurements in documentation text.** This means no pixel values, no dp/pt values, no percentage dimensions, no padding or margin numbers, no corner radius values, no icon sizes — nothing that Figma Inspect or Dev Mode already exposes. Sizes change; tokens and Inspect are the source of truth. If you find yourself writing a number followed by px, dp, pt, or %, delete it. Reference token names (e.g. `--round`, `--spacing-md`) only when they clarify intent that is not obvious from the component name alone.
 
-- If you have doubts, ask the user to clarify before writing documentation
+### Clarifying questions
+
+**Before documenting component behavior, ask the user about these assumptions if needed** — do NOT guess:
+
+1. **Sizing behavior**: Is height/width fixed, min-height/min-width, or fully adaptive? Never assume "fixed" — most accessible components use min-height to allow content growth.
+
+2. **Text handling**: Can text wrap to multiple lines? Our components target WCAG AA compliance, so line breaks are typically allowed to prevent truncation. Do not document "no wrapping" without confirmation. Use the Component Behaviour sections to showcase extremely long text when relevant.
+
+3. **Selection indication**: How is selection communicated if the component supports it? Color alone is insufficient for accessibility — confirm if icons, borders, or other visual indicators are required.
+
+4. **State behavior**: What states exist and how are they reached? Confirm interactive states (hover, pressed, focus) and their triggers.
+
+5. **Platform differences**: Do behaviors differ between Web, iOS, and Android? Confirm if there are platform-specific accessibility requirements.
+
+If you have doubts, ask the user to clarify before writing documentation. Do not assume.
+
 - Make sure the final doc layout is consistent. All blocks in a section column are expected to be the same width.
 
 ### Primitives section consistency
