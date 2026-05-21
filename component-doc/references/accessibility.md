@@ -272,7 +272,7 @@ Add a focus order section when the component has **2+ actual focus stops** (as d
 
 **Omit focus order:** Simple button (1 stop), checkbox with label (1 stop — label merges), toggle switch (1 stop), plain list item without action buttons (1 stop).
 
-> **Single-stop `#header-row` label:** When the focus order section is omitted, the `#focus-order` cell in each platform table's `#header-row` must be labeled **`"Announcement"`**, not `"Focus order"`. The label `"Focus order"` only makes sense when there are multiple numbered stops to reference.
+> **Single-stop `#header-row` label:** When the focus order section is omitted, the `#focus-order` cell in each platform table's `#header-row` must be labeled **`"Summary"`**, not `"Focus order"`. The label `"Focus order"` only makes sense when there are multiple numbered stops to reference.
 
 ### How to Structure
 
