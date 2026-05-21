@@ -158,7 +158,7 @@ These are template instructions for human authors. They must not appear in finis
 
 1. **Sizing behavior**: Is height/width fixed, min-height/min-width, or fully adaptive? Never assume "fixed" — most accessible components use min-height to allow content growth.
 
-2. **Text handling**: Can text wrap to multiple lines? Our components target WCAG AA compliance, so line breaks are typically allowed to prevent truncation. Do not document "no wrapping" without confirmation. Use the Component Behaviour sections to showcase extremenly long text when relevant.
+2. **Text handling**: Can text wrap to multiple lines? Our components target WCAG AA compliance, so line breaks are typically allowed to prevent truncation. Do not document "no wrapping" without confirmation. Use the Component Behaviour sections to showcase extremely long text when relevant.
 
 3. **Selection indication**: How is selection communicated if the component supports it? Color alone is insufficient for accessibility — confirm if icons, borders, or other visual indicators are required.
 
