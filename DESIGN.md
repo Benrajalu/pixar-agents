@@ -396,7 +396,7 @@ The layout system uses a flexible grid with consistent spacing tokens.
 
 ### Spacing Scale
 
-A semantic spacing system with three axes:
+A semantic spacing system with three axes. **Axis selection rule:** use `horizontal-*` for inline (left/right) padding and `vertical-*` for block (top/bottom) padding. `gap-*` is for spacing between sibling elements; it may be used as a last resort for padding when no `horizontal-*` or `vertical-*` value matches the design intent.
 
 **Gap** — Space between sibling elements:
 | Token | Value | Use Case |
@@ -509,6 +509,12 @@ Standard heights for interactive elements:
 | `xxl` | 56px |
 | `max-mobile` | 96px |
 | `max-desktop` | 104px |
+
+### Icon Usage
+
+**Always use the Pixar `Icon` component** for all iconography. Do not create custom SVG paths or vector shapes as icon replacements — use `importComponentSetByKeyAsync` to bring in the library Icon component and swap the glyph via its INSTANCE_SWAP property.
+
+To apply color, set a `txt/*` fill style directly on the `Icon` instance. The `strike` variant property adds a visual strikethrough and is unrelated to color.
 
 ## Components
 

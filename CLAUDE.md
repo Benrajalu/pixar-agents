@@ -19,6 +19,17 @@ Agents read component context from Figma via MCP tools and write changes back di
 | `ItemReplace` | Scan a Figma frame for deprecated `DEPRECATED Item*` instances and replace them with their modern equivalents |
 | `SupernovaDoc` | Generate copy-paste ready Supernova documentation (Overview, Usage, Content, Accessibility) from a Figma component-doc frame |
 
+## Skills
+
+Skills are in `.agents/skills/`. Each skill has its own directory with a `SKILL.md` file and a `references/` folder:
+
+| Skill | Purpose |
+|-------|---------|
+| `.agents/skills/component-doc/` | Complete component documentation in Figma |
+| `.agents/skills/item-replace/` | Migrate deprecated Item* component instances |
+| `.agents/skills/supernova-doc/` | Generate Supernova documentation copy |
+| `.agents/skills/a11y-check/` | Produce accessibility annotations for a feature screen |
+
 ## MCP dependency
 
 Both actions require the **Figma MCP**. The key tools used are:
@@ -52,55 +63,28 @@ The **Supernova MCP** provides access to existing design system documentation:
 
 ## Setup
 
+### Claude Desktop / Claude Code
+
+MCP servers are configured in `.vscode/mcp.json` (for VS Code integration) or via Claude's MCP settings.
+
+To configure manually, add Figma and Supernova as MCP servers:
+
+- **Figma MCP:** HTTP, URL `https://mcp.figma.com/mcp`
+- **Supernova MCP:** HTTP, URL `https://mcp.supernova.io/mcp/ds/23456`
+
+Authenticate with each service when prompted on first tool use.
+
 ### VS Code
 
-The workspace includes a `.vscode/mcp.json` config that auto-configures the Figma and Supernova MCP servers.
+The workspace includes a `.vscode/mcp.json` config that auto-configures both MCP servers.
 
 1. Open this workspace in VS Code
 2. Accept the trust prompt when VS Code asks to start the MCP servers
 3. Authenticate with Figma and Supernova when prompted on first tool use
 
-If you already have Figma or Supernova configured at user level, VS Code merges both configs — no conflict.
-
-### Copilot CLI
-
-Copilot CLI uses a separate config at `~/.copilot/mcp-config.json`. Either:
-
-**Option A — Interactive setup:**
-```
-copilot
-/mcp add
-```
-Then fill in: Server Name = `figma`, Type = `HTTP`, URL = `https://mcp.figma.com/mcp`
-
-Repeat for Supernova: Server Name = `supernova`, Type = `HTTP`, URL = `https://mcp.supernova.io/mcp/ds/23456`
-
-**Option B — Manual config:**
-Merge the content from `mcp-config.copilot-cli.json` into `~/.copilot/mcp-config.json`.
-
-## Key files
-
-| File | Purpose |
-|------|---------|
-| `.agents/skills/component-doc/SKILL.md` | Agent behavior for completing component documentation |
-| `.agents/skills/component-doc/references/accessibility.md` | Accessibility section spec — template insertion, VoiceOver, TalkBack, ARIA |
-| `.agents/skills/component-doc/references/screenreader.md` | Screen reader analysis guide |
-| `.agents/skills/component-doc/references/aria.md` | ARIA roles, states, keyboard patterns |
-| `.agents/skills/component-doc/references/talkback.md` | TalkBack (Android / Jetpack Compose) reference |
-| `.agents/skills/component-doc/references/voiceover.md` | VoiceOver (iOS / SwiftUI) reference |
-| `.agents/skills/item-replace/SKILL.md` | Agent behavior for deprecated item migration |
-| `.agents/skills/item-replace/references/component-mappings.md` | Component keys, property mappings, migration examples |
-| `.agents/skills/supernova-doc/SKILL.md` | Agent behavior for generating Supernova documentation |
-| `.agents/skills/supernova-doc/references/overview-template.md` | Template for Overview page |
-| `.agents/skills/supernova-doc/references/usage-template.md` | Template for Usage page |
-| `.agents/skills/supernova-doc/references/content-template.md` | Template for Content page |
-| `.agents/skills/supernova-doc/references/accessibility-template.md` | Template for Accessibility page |
-| `.agents/skills/component-doc/references/implementation.md` | Architecture reference (ComponentDoc) |
-| `.agents/skills/item-replace/references/implementation.md` | Architecture reference (ItemReplace) |
-
 ## Running an action
 
-Provide a Figma URL and describe what you need. The agent matches your request to the appropriate action:
+Provide a Figma URL and describe what you need. Match the request to the appropriate skill:
 
 ```
 Complete the documentation for this component: https://www.figma.com/design/abc123/...?node-id=100:200
