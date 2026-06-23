@@ -164,10 +164,11 @@ Option B (manual):
 
 ## Repository Structure (Quick View)
 
-- `component-doc/` -> instructions and references for component documentation automation
-- `item-replace/` -> instructions and mappings for deprecated item replacement
-- `supernova-doc/` -> instructions and generated examples for Supernova documentation
-- `AGENTS.md` -> high-level operating instructions for this repo
+- `.agents/skills/component-doc/` -> instructions and references for component documentation automation
+- `.agents/skills/item-replace/` -> instructions and mappings for deprecated item replacement
+- `.agents/skills/supernova-doc/` -> instructions and generated examples for Supernova documentation
+- `.agents/skills/a11y-check/` -> instructions and references for accessibility annotations
+- `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` -> high-level operating instructions (per platform)
 
 ## Need Help Writing the Prompt?
 

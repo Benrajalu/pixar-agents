@@ -7,7 +7,7 @@
 		},
 		"supernova": {
 			"type": "http",
-			"url": "https://mcp.supernova.io/mcp/ds/23456",
+			"url": "https://mcp.supernova.io/mcp/c/70096-pixar",
 			"tools": ["*"]
 		}
 	}
