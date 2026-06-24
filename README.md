@@ -3,7 +3,7 @@
 AutoDoc helps designers do three tasks faster using GitHub Copilot:
 
 1. Fill in component documentation in Figma.
-2. Replace deprecated components with current ones.
+2. Annotate a feature screen for accessibility.
 3. Generate documentation text for Supernova.
 
 You do not need to be an engineer to use this repo.
@@ -70,65 +70,73 @@ On your first Copilot run:
 
 After sign-in, Copilot can read design context and generate or update content for you.
 
-## How to Use (Copy-Paste Prompts)
+## Skills
 
-Start a fresh Copilot chat for each action.
+Start a fresh Copilot chat for each task. Paste the relevant prompt with your Figma URL.
 
-### 1) Complete Component Documentation
+---
 
-First, use AleksAI to generate the documentation template of a component. Select the frame it creates. It should contains all of our sections (Primitives, Main component etc...). Copy this frame's URL.
+### Component Documentation
 
-Paste this (replace with your real Figma URL):
+Fills in a component documentation frame in Figma. Given a frame URL, Copilot reads the component structure, then writes into each documentation section: primitives, main component showcase, component behaviour (text handling, screen sizes, partial content), and accessibility. It places interactive demo instances directly in the frame to illustrate good and bad usage examples.
+
+**Before you start:** Use AleksAI to generate the documentation template for your component. Copy the URL of the frame it creates — it should include sections like Primitives, Main component, etc.
+
+**Prompt:**
 
 ```text
 Complete the documentation for this component: FRAME_URL_HERE
 ```
 
-Expected result:
+**What to expect:**
 
-- Copilot completes sections in the component doc frame.
-- Includes behavior, usage details, and accessibility content.
+- Copilot may ask a few clarifying questions (sizing behaviour, interactive states, platform differences) before writing.
+- It fills all sections directly in the Figma file and removes placeholder text.
+- The accessibility section is completed last, informed by the rest of the documentation.
 
-### 2) Replace Deprecated Items
+---
 
-Before running this action, create a named Figma version first.
+### Accessibility Annotations
 
-In Figma:
+Audits a single feature screen for WCAG AA requirements and places tooltip annotations beside the mockup in Figma. Covers web, native iOS, and native Android in one pass. Annotations are minimal and actionable — only what is ambiguous, missing, or specific to that screen.
 
-- Go to **File > Save to version history** (or create a named version in version history).
-
-Then paste this prompt:
-
-```text
-Replace deprecated items in this frame: https://www.figma.com/design/FILE_KEY/FILE_NAME?node-id=100-200
-```
-
-Expected result:
-
-- Copilot scans for deprecated `DEPRECATED Item*` instances.
-- Replaces them with modern equivalents.
-
-### 3) Generate Supernova Documentation
-
-Paste this prompt:
+**Prompt:**
 
 ```text
-Generate Supernova documentation for this component: https://www.figma.com/design/FILE_KEY/FILE_NAME?node-id=100-200
+Annotate this screen for accessibility: FRAME_URL_HERE
 ```
 
-Expected result:
+**What to expect:**
 
-- Copilot generates ready-to-use documentation text for:
-  - Overview
-  - Usage
-  - Content
-  - Accessibility
+- Copilot walks you through clarifying questions one at a time (imagery, interactive roles, focus order).
+- It presents a proposed annotation plan for your approval before drawing anything.
+- Tooltips are placed in a new container named `🔍 A11y — [Frame name]` beside your mockup.
+- After drawing, you receive a written summary of designer actions not covered by the tooltips.
 
-## Important Rules
+---
 
-1. Use one action per chat conversation.
-2. Run one agent per Figma file at a time.
-3. Always create a named Figma version before replacement tasks.
+### Supernova Documentation
+
+Generates copy-paste ready documentation for Supernova from a Figma component doc frame. Produces four pages — Overview, Usage, Content, and Accessibility — translated from implementation specs into usage guidance.
+
+**Prompt:**
+
+```text
+Generate Supernova documentation for this component: FRAME_URL_HERE
+```
+
+**What to expect:**
+
+- Copilot extracts component information from Figma, then asks a small set of targeted questions about real usage context.
+- It generates all four pages in a single response, formatted for direct paste into Supernova's editor.
+- You can ask it to save the output as a local markdown file in `supernova-doc/generated/`.
+
+---
+
+## Rules
+
+- Use one skill per chat conversation.
+- Always provide a Figma URL with a `node-id`.
 
 ## Troubleshooting
 
@@ -162,24 +170,9 @@ Option B (manual):
 
 - Merge settings from `mcp-config.copilot-cli.json` into `~/.copilot/mcp-config.json`.
 
-## Repository Structure (Quick View)
+## Repository Structure
 
-- `.agents/skills/component-doc/` -> instructions and references for component documentation automation
-- `.agents/skills/item-replace/` -> instructions and mappings for deprecated item replacement
-- `.agents/skills/supernova-doc/` -> instructions and generated examples for Supernova documentation
-- `.agents/skills/a11y-check/` -> instructions and references for accessibility annotations
-- `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` -> high-level operating instructions (per platform)
-
-## Need Help Writing the Prompt?
-
-Use this simple format:
-
-```text
-[Action] for this Figma frame: [paste figma URL]
-```
-
-Examples of `[Action]`:
-
-- `Complete the documentation`
-- `Replace deprecated items`
-- `Generate Supernova documentation`
+- `.agents/skills/component-doc/` → component documentation skill
+- `.agents/skills/supernova-doc/` → Supernova documentation skill
+- `.agents/skills/a11y-check/` → accessibility annotation skill
+- `AGENTS.md` / `CLAUDE.md` / `GEMINI.md` → operating instructions per platform
